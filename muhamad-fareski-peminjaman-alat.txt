@@ -1,0 +1,10 @@
+http://muhamad-fareski-peminjaman-alat.free.nf/
+
+akun admin: gmail : admin0@gmail.com
+	    pass  : 0
+
+akun petugas gmail : petugas0@gmail.com
+	     pass : 0 
+
+akun peminjam gmail : peminjam0@gmail.com
+	      pass  : 0
