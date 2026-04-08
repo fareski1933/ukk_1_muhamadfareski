@@ -1,0 +1,102 @@
+/* Wrapper luar untuk mengontrol posisi grid */
+.alat-wrapper-wrapper {
+    max-width: 1200px; /* atau sesuaikan lebar halaman */
+    margin: 0 auto;     /* bikin di tengah halaman */
+    padding: 20px;
+}
+
+/* Grid kartu */
+.alat-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* Kartu alat */
+.alat-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.alat-card:hover {
+    transform: translateY(-5px);
+}
+
+.alat-image img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.alat-info {
+    padding: 15px;
+}
+
+.alat-info h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.alat-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.alat-image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.alat-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; /* biar fokus di tengah */
+}
+
+.alat-info {
+    padding: 15px;
+    border-top: 1px solid #eee;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-top: 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status.tersedia {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status.habis {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.btn-pinjam {
+    margin-top: 10px;
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #4facfe;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-pinjam:hover {
+    background: #2f80ed;
+}
+
