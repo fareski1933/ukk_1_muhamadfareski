@@ -12,16 +12,14 @@ class c_kategori {
         }
     }
 
-    // ======================
+
     // TAMPIL DATA
-    // ======================
     public function index(){
         return $this->model->getAll();
     }
 
-    // ======================
+
     // SIMPAN DATA
-    // ======================
     public function store(){
         if(isset($_POST['nama_kategori']) && !empty(trim($_POST['nama_kategori']))){
             $nama = trim($_POST['nama_kategori']);
@@ -42,17 +40,13 @@ class c_kategori {
         }
     }
 
-    // ======================
     // TAMPIL EDIT
-    // ======================
     public function show($id){
         if(!is_numeric($id)) return false;
         return $this->model->getById($id);
     }
 
-    // ======================
     // UPDATE
-    // ======================
     public function update(){
         if(isset($_POST['id_kategori']) && isset($_POST['nama_kategori'])){
             $id   = $_POST['id_kategori'];
@@ -76,9 +70,7 @@ class c_kategori {
         }
     }
 
-    // ======================
     // DELETE
-    // ======================
     public function destroy($id){
         if(!is_numeric($id)) return false;
 

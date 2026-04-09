@@ -1,13 +1,34 @@
 <?php
 session_start();
+
+// 1. Cek Keamanan
 if(!isset($_SESSION['role']) || $_SESSION['role'] != "admin"){
     header("Location: ../../index.php");
     exit;
 }
 
+// 2. Include Controller
 include_once '../../../controllers/c_log_aktivitas.php';
-
 $controller = new c_log_aktivitas();
+
+// 3. LOGIKA HAPUS (Taruh di sini supaya dieksekusi sebelum ambil data)
+if(isset($_GET['hapus'])){
+    $id = $_GET['hapus'];
+    $result = $controller->hapus($id);
+    
+    if($result){
+        // Refresh ke file ini sendiri tanpa parameter ?hapus
+        echo "<script>
+                alert('Data berhasil dihapus');
+                window.location='log_aktivitas.php';
+              </script>";
+        exit;
+    } else {
+        echo "<script>alert('Gagal menghapus data');</script>";
+    }
+}
+
+// 4. Baru ambil data untuk tabel
 $data = $controller->index();
 ?>
 

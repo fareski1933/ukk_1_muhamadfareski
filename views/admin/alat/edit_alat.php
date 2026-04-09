@@ -1,27 +1,25 @@
 <?php
-// edit_alat.php - versi sudah diperbaiki
-
+// edit_alat.php
 include_once __DIR__ . '/../../../controllers/c_alat.php';
 
-// Mulai session aman
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Buat instance controller
 $controller = new c_alat();
 
-// Jalankan update dulu kalau ada submit
-$controller->update();
+// 1. Jalankan update jika tombol ditekan
+if (isset($_POST['update'])) {
+    $controller->update();
+}
 
-// Ambil data alat
+// 2. Ambil data alat untuk ditampilkan di form (setelah kemungkinan update)
 $id = isset($_GET['id']) ? $_GET['id'] : 0;
 $data = $controller->show($id);
-$row = $data ? mysqli_fetch_assoc($data) : null;
+$row = ($data) ? mysqli_fetch_assoc($data) : null;
 
-// Cegah error jika $row null
 if (!$row) {
-    echo "<p>Data alat tidak ditemukan.</p>";
+    header("Location: tampil_data_alat.php");
     exit;
 }
 ?>
@@ -35,12 +33,9 @@ if (!$row) {
 </div>
 
 <div class="container">
-
     <div class="form-card">
-
-        <form method="POST">
-
-            <h2>Edit Alat</h2>
+        <form method="POST" action="">
+            <h2>Edit Detail Alat</h2>
 
             <input type="hidden" name="id_alat" value="<?= htmlspecialchars($row['id_alat']); ?>">
 
@@ -70,86 +65,20 @@ if (!$row) {
                 <button type="submit" name="update">Update</button>
                 <a href="tampil_data_alat.php" class="btn-cancel">Batal</a>
             </div>
-
         </form>
-
     </div>
-
 </div>
 
 <?php include __DIR__ . '/../../layouts/footer.php'; ?>
 
 <style>
-
-/* container biar gak ketiban sidebar */
-.container{
-    margin-left:250px;
-    padding:20px;
-}
-
-/* card form */
-.form-card{
-    background:white;
-    padding:30px;
-    max-width:500px;
-    margin:40px auto;
-    border-radius:12px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
-
-/* label */
-.form-card label{
-    display:block;
-    margin-top:15px;
-    font-weight:600;
-}
-
-/* input */
-.form-card input,
-.form-card select{
-    width:100%;
-    padding:10px;
-    margin-top:5px;
-    border:1px solid #ccc;
-    border-radius:6px;
-}
-
-/* tombol */
-.form-buttons{
-    margin-top:20px;
-    display:flex;
-    gap:10px;
-}
-
-.form-buttons button{
-    flex:1;
-    background:#1E3A8A;
-    color:white;
-    padding:10px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-}
-
-.form-buttons button:hover{
-    background:#162d6b;
-}
-
-.btn-cancel{
-    flex:1;
-    text-align:center;
-    background:#6c757d;
-    color:white;
-    padding:10px;
-    border-radius:6px;
-    text-decoration:none;
-}
-
-/* responsive */
-@media (max-width:768px){
-    .container{
-        margin-left:0;
-    }
-}
-
+.container { margin-left: 250px; padding: 20px; }
+.form-card { background: white; padding: 30px; max-width: 500px; margin: 40px auto; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.form-card label { display: block; margin-top: 15px; font-weight: 600; }
+.form-card input, .form-card select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; }
+.form-buttons { margin-top: 20px; display: flex; gap: 10px; }
+.form-buttons button { flex: 1; background: #1E3A8A; color: white; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.form-buttons button:hover { background: #162d6b; }
+.btn-cancel { flex: 1; text-align: center; background: #6c757d; color: white; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; }
+@media (max-width: 768px) { .container { margin-left: 0; } }
 </style>

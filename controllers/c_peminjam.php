@@ -1,75 +1,49 @@
 <?php
-// ✅ Pastikan session hanya dijalankan sekali
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+include_once __DIR__ . '/../models/m_peminjaman.php';
 
-include_once __DIR__ . '/../models/m_peminjam.php';
-include_once __DIR__ . '/../models/m_log_aktivitas.php';
-
-class c_peminjam {
+class c_peminjaman {
 
     private $model;
-    private $log;
 
     public function __construct(){
-        $this->model = new m_peminjam();
-        $this->log = new m_log_aktivitas();
+        $this->model = new m_peminjaman();
     }
 
-    // Ambil daftar alat untuk peminjam
-    public function getAlatPeminjam(){
-        return $this->model->getAlat();
+    // ================= TAMPIL DATA =================
+    public function index(){
+        return $this->model->getAllPeminjaman();
     }
 
-    // Proses peminjaman alat
-    public function pinjam(){
+    // ================= DETAIL =================
+    public function show($id){
+        return $this->model->getPeminjamanById($id);
+    }
 
-        // cek login
-        if(!isset($_SESSION['id_user'])){
-            die("User belum login");
-        }
+    // ================= TAMBAH =================
+    public function store($data){
+        return $this->model->addPeminjaman($data);
+    }
 
-        // cek input
-        if(!isset($_POST['id_alat'], $_POST['tgl_pinjam'], $_POST['tgl_kembali'])){
-            die("Data tidak lengkap");
-        }
+    // ================= UPDATE =================
+    public function update($id,$data){
+        return $this->model->updatePeminjaman($id,$data);
+    }
 
-        $id_user = $_SESSION['id_user'];
-
-        $data = [
-            'id_user' => $id_user,
-            'id_alat' => $_POST['id_alat'],
-            'tgl_pinjam' => $_POST['tgl_pinjam'],
-            'tgl_kembali' => $_POST['tgl_kembali']
-        ];
-
-        $result = $this->model->pinjamAlat($data);
-
-        if($result){
-            // Tambah log aktivitas
-            $this->log->insert(
-                $id_user, 
-                "Mengajukan peminjaman alat (ID Alat: ".$_POST['id_alat'].")"
-            );
-
-            $_SESSION['notif_pinjam'] = "✅ Pengajuan berhasil, tunggu persetujuan!";
-        } else {
-            $_SESSION['notif_pinjam'] = "❌ Gagal melakukan peminjaman!";
-        }
-
-        // Redirect kembali ke daftar alat
-        header("Location: ../views/peminjam/daftar_alat.php");
-        exit;
+    // ================= HAPUS =================
+    public function delete($id){
+        return $this->model->deletePeminjaman($id);
     }
 }
 
-// Routing: cek aksi
-if(isset($_GET['aksi'])){
-    $controller = new c_peminjam();
+// ================= ROUTING =================
+$controller = new c_peminjaman();
 
-    if($_GET['aksi'] == "pinjam"){
-        $controller->pinjam();
-    }
+// 🔥 FIX BAGIAN INI
+if(isset($_GET['hapus'])){
+    $controller->delete($_GET['hapus']);
+
+    // WAJIB redirect balik
+    header("Location: ../views/admin/peminjaman/data_peminjaman.php");
+    exit;
 }
 ?>

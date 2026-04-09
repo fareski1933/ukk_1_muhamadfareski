@@ -5,13 +5,13 @@ include_once '../models/m_reglog.php';
 $login = new m_reglog();
 
 if (!isset($_GET['aksi'])) {
-    header("Location: ../views/index.php");
+    header("Location: ../index.php");
     exit;
 }
 
 $aksi = $_GET['aksi'];
 
-// ================= LOGIN =================
+// login
 if ($aksi === 'login') {
 
     $email    = $_POST['email'];
@@ -25,7 +25,7 @@ if ($aksi === 'login') {
         $_SESSION['nama']    = $data['nama'];
         $_SESSION['role']    = $data['role'];
 
-        // 🔀 MULTI ROLE REDIRECT
+        // multi role
         if ($data['role'] == 'admin') {
             header("Location: ../views/admin/dashboard.php");
         } 
@@ -37,7 +37,7 @@ if ($aksi === 'login') {
         } 
         else {
             session_destroy();
-            header("Location: ../views/index.php");
+            header("Location: ../index.php");
         }
 
         exit;
@@ -45,12 +45,12 @@ if ($aksi === 'login') {
     } else {
         echo "<script>
                 alert('Email atau password salah');
-                window.location='../views/index.php';
+                window.location='../index.php';
               </script>";
     }
 }
 
-// ================= REGISTRASI =================
+// registrasi
 elseif ($aksi === 'registrasi') {
 
     $nama     = $_POST['nama'];
@@ -58,18 +58,17 @@ elseif ($aksi === 'registrasi') {
     $no_tlp   = $_POST['no_tlp'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    // 🔥 Tidak ada role dari form, otomatis 'peminjam'
     $result = $login->registrasi($nama, $email, $no_tlp, $password);
 
     if ($result) {
         echo "<script>
                 alert('Registrasi berhasil');
-                window.location='../views/index.php';
+                window.location='../index.php';
               </script>";
     } else {
         echo "<script>
                 alert('Registrasi gagal');
-                window.location='../views/registrasi.php';
+                window.location='../registrasi.php';
               </script>";
     }
 }

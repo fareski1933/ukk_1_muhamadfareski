@@ -1,5 +1,9 @@
 <?php
+// Pastikan path ini benar (Case Sensitive di hosting!)
 include_once __DIR__ . "/../models/m_user.php";
+
+// 1. Definisikan Base URL di paling atas agar bisa dipakai di semua fungsi
+$base_url = "http://muhamad-fareski-peminjaman-alat.free.nf/";
 
 class c_user {
 
@@ -9,39 +13,33 @@ class c_user {
         $this->model = new m_user();
     }
 
-    // =========================
-    // TAMPIL DATA USER
-    // =========================
     public function index(){
         return $this->model->getAll();
     }
 
-    // =========================
-    // SIMPAN USER BARU
-    // =========================
     public function store(){
+        // 2. Tambahkan global agar fungsi bisa membaca variabel di luar class
+        global $base_url;
+
         $nama     = $_POST['nama'] ?? '';
         $email    = $_POST['email'] ?? '';
         $no_tlp   = $_POST['no_tlp'] ?? '';
         $password = password_hash($_POST['password'] ?? '', PASSWORD_DEFAULT);
-        $role     = 'peminjam'; // 🔥 DEFAULT ROLE UNTUK USER BARU
+        $role     = 'peminjam';
 
         $this->model->insert($nama, $email, $no_tlp, $password, $role);
 
-        header("Location: http://localhost/ukk_1_muhamadfareski/views/admin/user/data_user.php");
+        header("Location: " . $base_url . "views/admin/user/data_user.php");
         exit;
     }
 
-    // =========================
-    // HANDLE AKSI (UPDATE ROLE / DELETE)
-    // =========================
     public function handleAksi(){
+        // 3. Tambahkan global di sini juga
+        global $base_url;
+
         if(!empty($_GET['aksi'])){
             $aksi = $_GET['aksi'];
 
-            // =====================
-            // UPDATE ROLE USER
-            // =====================
             if($aksi == "edit_role"){
                 $id   = $_POST['id_user'] ?? null;
                 $role = $_POST['role'] ?? null;
@@ -49,30 +47,22 @@ class c_user {
                 if($id && $role){
                     $this->model->updateRole($id, $role);
                 }
-
-                header("Location: http://localhost/ukk_1_muhamadfareski/views/admin/user/data_user.php");
+                header("Location: " . $base_url . "views/admin/user/data_user.php");
                 exit;
             }
-
-            // =====================
-            // HAPUS USER
-            // =====================
             elseif($aksi == "hapus"){
                 $id = $_GET['id'] ?? null;
 
                 if($id){
                     $this->model->delete($id);
                 }
-
-                header("Location: http://localhost/ukk_1_muhamadfareski/views/admin/user/data_user.php");
+                header("Location: " . $base_url . "views/admin/user/data_user.php");
                 exit;
             }
         }
     }
 }
 
-// =========================
 // PANGGIL CONTROLLER
-// =========================
 $controller = new c_user();
 $controller->handleAksi();

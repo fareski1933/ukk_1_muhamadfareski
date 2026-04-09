@@ -3,10 +3,12 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// ✅ Cek session admin
+// Gunakan URL lengkap hosting
+$base_url = "https://muhamad-fareski-peminjaman-alat.free.nf/";
+
+//  Cek session admin
 if (!isset($_SESSION['role']) || $_SESSION['role'] != "admin") {
-    // Redirect ke halaman login (root proyek)
-    header("Location: /ukk_1_muhamadfareski/views/index.php");
+    header("Location: " . $base_url . "index.php");
     exit;
 }
 
@@ -14,22 +16,21 @@ include_once __DIR__ . '/../models/m_pengembalian.php';
 
 class c_pengembalian {
     private $model;
+    private $base_url_internal;
 
     public function __construct(){
         $this->model = new m_pengembalian();
+        $this->base_url_internal = "https://muhamad-fareski-peminjaman-alat.free.nf/";
     }
 
-    // Ambil semua data pengembalian + nama user
     public function index(){
         return $this->model->getAllWithNamaUser();
     }
 
-    // Ambil data per ID
     public function getById($id){
         return $this->model->getById($id);
     }
 
-    // Update data pengembalian
     public function update(){
         if(!isset($_POST['id_pengembalian'])){
             die("ID pengembalian tidak ditemukan!");
@@ -42,12 +43,11 @@ class c_pengembalian {
 
         $this->model->update($id, $tgl, $kondisi, $denda);
 
-        // Redirect ke halaman data pengembalian
-        header("Location: /ukk_1_muhamadfareski/views/admin/pengembalian/data_pengembalian.php");
+        //  Redirect diperbaiki ke URL hosting
+        header("Location: " . $this->base_url_internal . "views/admin/pengembalian/data_pengembalian.php");
         exit;
     }
 
-    // Hapus data pengembalian
     public function hapus($id){
         if(!is_numeric($id)){
             die("ID tidak valid!");
@@ -55,19 +55,19 @@ class c_pengembalian {
 
         $this->model->delete($id);
 
-        // Redirect ke halaman data pengembalian
-        header("Location: /ukk_1_muhamadfareski/views/admin/pengembalian/data_pengembalian.php");
+        // Redirect diperbaiki ke URL hosting
+        header("Location: " . $this->base_url_internal . "views/admin/pengembalian/data_pengembalian.php");
         exit;
     }
 }
 
-// 🔹 Proses Update
+// Proses Update
 if (isset($_POST['update'])) {
     $controller = new c_pengembalian();
     $controller->update();
 }
 
-// 🔹 Proses Hapus
+// Proses Hapus
 if (isset($_GET['hapus'])) {
     $controller = new c_pengembalian();
     $controller->hapus($_GET['hapus']);

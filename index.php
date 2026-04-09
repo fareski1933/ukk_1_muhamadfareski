@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Registrasi</title>
+<title>Login</title>
 
 <style>
 body {
@@ -15,11 +15,11 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* BOX */
+/* BOX LOGIN */
 .box {
     background: #ffffff;
     padding: 35px 30px;
-    width: 350px;
+    width: 340px;
     border-radius: 14px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     text-align: center;
@@ -35,11 +35,11 @@ body {
 .title {
     font-size: 14px;
     color: #777;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 h2 {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     color: #333;
 }
 
@@ -47,7 +47,7 @@ h2 {
 input {
     width: 100%;
     padding: 12px;
-    margin: 8px 0;
+    margin: 10px 0;
     border-radius: 8px;
     border: 1px solid #ddd;
     font-size: 14px;
@@ -103,27 +103,22 @@ button:hover {
 
 <div class="box">
 
-    <!-- LOGO -->
+    <!-- LOGO ALAT -->
     <img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png" class="logo">
 
     <div class="title">Sistem Peminjaman Alat</div>
 
-    <h2>Registrasi</h2>
+    <h2>Login</h2>
 
-    <form method="POST" action="../controllers/c_reglog.php?aksi=registrasi">
-        <input type="text" name="nama" placeholder="Nama Lengkap" required>
+    <form method="POST" action="/ukk_1_muhamadfareski/controllers/c_reglog.php?aksi=login">
         <input type="email" name="email" placeholder="Email" required>
-        <input type="text" name="no_tlp" placeholder="No Telepon" required>
         <input type="password" name="password" placeholder="Password" required>
-
-        <!-- 🔥 Role otomatis 'peminjam', tidak perlu input dari user -->
-
-        <button type="submit">Daftar</button>
+        <button type="submit">Login</button>
     </form>
 
     <div class="link">
-        Sudah punya akun?
-        <a href="index.php">Login</a>
+        Tidak memiliki akun?
+        <a href="registrasi.php">Daftar</a>
     </div>
 
 </div>

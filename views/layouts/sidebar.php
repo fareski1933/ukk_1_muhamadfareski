@@ -50,7 +50,7 @@ $base_url = "http://localhost/ukk_1_muhamadfareski/";
 
     <?php endif; ?>
 
-    <li><a href="<?= $base_url ?>views/index.php" class="logout">
+    <li><a href="<?= $base_url ?>/index.php" class="logout">
         <i class="fa fa-sign-out-alt"></i> Logout
     </a></li>
 </ul>
