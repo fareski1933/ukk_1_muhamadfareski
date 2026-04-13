@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 08, 2026 at 07:55 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Host: localhost:3306
+-- Generation Time: Apr 13, 2026 at 01:34 AM
+-- Server version: 8.4.3
+-- PHP Version: 8.3.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,28 +28,29 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `alat` (
-  `id_alat` int(11) NOT NULL,
+  `id_alat` int NOT NULL,
   `nama_alat` varchar(100) DEFAULT NULL,
-  `id_kategori` int(11) DEFAULT NULL,
-  `stok` int(11) DEFAULT NULL,
+  `id_kategori` int DEFAULT NULL,
+  `stok` int DEFAULT NULL,
   `kondisi` enum('baik','rusak') DEFAULT NULL,
   `status` enum('tersedia','dipinjam','tidak tersedia') DEFAULT 'tersedia'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `alat`
 --
 
 INSERT INTO `alat` (`id_alat`, `nama_alat`, `id_kategori`, `stok`, `kondisi`, `status`) VALUES
-(34, 'Sepatu Futsal', 6, 8, 'baik', 'tersedia'),
-(35, 'Bola Futsal', 6, 2, 'baik', 'tersedia'),
+(34, 'Sepatu Futsal', 6, 6, 'baik', 'tersedia'),
+(35, 'Bola Futsal', 6, 3, 'baik', 'tersedia'),
 (36, 'Pelindung Kaki', 6, 4, 'baik', 'tersedia'),
 (37, 'Bola Basket', 7, 0, 'baik', 'tersedia'),
 (38, 'Sepatu Basket', 7, 0, 'baik', 'tersedia'),
 (39, 'Jersey Basket', 7, 7, 'baik', 'tersedia'),
 (40, 'Raket', 8, 3, 'baik', 'tersedia'),
 (41, 'Kok', 8, 8, 'baik', 'tersedia'),
-(42, 'Sepatu Badminton', 8, 9, 'baik', 'tersedia');
+(42, 'Sepatu Badminton', 8, 0, 'baik', 'tersedia'),
+(45, 'kaos kaki', 6, 1, 'rusak', 'tidak tersedia');
 
 -- --------------------------------------------------------
 
@@ -58,9 +59,9 @@ INSERT INTO `alat` (`id_alat`, `nama_alat`, `id_kategori`, `stok`, `kondisi`, `s
 --
 
 CREATE TABLE `kategori` (
-  `id_kategori` int(11) NOT NULL,
+  `id_kategori` int NOT NULL,
   `nama_kategori` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `kategori`
@@ -78,30 +79,26 @@ INSERT INTO `kategori` (`id_kategori`, `nama_kategori`) VALUES
 --
 
 CREATE TABLE `log_aktivitas` (
-  `id_log` int(11) NOT NULL,
-  `id_user` int(11) DEFAULT NULL,
-  `aktivitas` text DEFAULT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `id_log` int NOT NULL,
+  `id_user` int DEFAULT NULL,
+  `aktivitas` text,
+  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `log_aktivitas`
 --
 
 INSERT INTO `log_aktivitas` (`id_log`, `id_user`, `aktivitas`, `tanggal`) VALUES
-(11, 58, 'Mengajukan peminjaman alat (ID Alat: 34)', '2026-03-31 23:26:43'),
-(12, 56, 'Menyetujui peminjaman (ID: 48)', '2026-03-31 23:26:59'),
-(13, 58, 'Mengajukan peminjaman alat (ID Alat: 34)', '2026-04-01 00:00:59'),
-(14, 56, 'Menyetujui peminjaman (ID: 49)', '2026-04-01 00:01:45'),
-(15, 58, 'Mengajukan peminjaman alat (ID Alat: 34)', '2026-04-03 23:29:50'),
-(16, 60, 'Mengajukan peminjaman alat (ID Alat: 39)', '2026-04-03 23:31:39'),
-(17, 56, 'Menyetujui peminjaman (ID: 53)', '2026-04-03 23:31:55'),
-(18, 58, 'Mengajukan peminjaman alat (ID Alat: 34)', '2026-04-04 07:22:34'),
-(19, 56, 'Menyetujui peminjaman (ID: 54)', '2026-04-04 07:22:58'),
-(0, 58, 'Mengajukan peminjaman alat (ID Alat: 42)', '2026-04-08 04:16:59'),
-(0, NULL, 'Mengarsipkan (menghapus) peminjaman (ID: 9)', '2026-04-08 04:19:26'),
-(0, NULL, 'Mengarsipkan (menghapus) peminjaman (ID: 2)', '2026-04-08 04:19:31'),
-(0, NULL, 'Mengarsipkan (menghapus) peminjaman (ID: 4)', '2026-04-08 04:19:35');
+(11, 58, 'Mengajukan peminjaman alat (ID Alat: 34)', '2026-04-01 06:26:43'),
+(12, 56, 'Menyetujui peminjaman (ID: 48)', '2026-04-01 06:26:59'),
+(13, 58, 'Mengajukan peminjaman alat (ID Alat: 34)', '2026-04-01 07:00:59'),
+(14, 56, 'Menyetujui peminjaman (ID: 49)', '2026-04-01 07:01:45'),
+(15, 58, 'Mengajukan peminjaman alat (ID Alat: 34)', '2026-04-04 06:29:50'),
+(16, 60, 'Mengajukan peminjaman alat (ID Alat: 39)', '2026-04-04 06:31:39'),
+(17, 56, 'Menyetujui peminjaman (ID: 53)', '2026-04-04 06:31:55'),
+(18, 58, 'Mengajukan peminjaman alat (ID Alat: 34)', '2026-04-04 14:22:34'),
+(19, 56, 'Menyetujui peminjaman (ID: 54)', '2026-04-04 14:22:58');
 
 -- --------------------------------------------------------
 
@@ -110,13 +107,13 @@ INSERT INTO `log_aktivitas` (`id_log`, `id_user`, `aktivitas`, `tanggal`) VALUES
 --
 
 CREATE TABLE `notifikasi` (
-  `id_notif` int(11) NOT NULL,
-  `id_user` int(11) DEFAULT NULL,
-  `pesan` text DEFAULT NULL,
-  `status_baca` int(11) DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id_notif` int NOT NULL,
+  `id_user` int DEFAULT NULL,
+  `pesan` text,
+  `status_baca` int DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` enum('baru','dibaca') DEFAULT 'baru'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `notifikasi`
@@ -153,19 +150,7 @@ INSERT INTO `notifikasi` (`id_notif`, `id_user`, `pesan`, `status_baca`, `create
 (28, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-01 06:26:59', 'dibaca'),
 (29, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-01 07:01:45', 'dibaca'),
 (30, 60, 'Peminjaman kamu DISETUJUI', 0, '2026-04-04 06:31:55', 'dibaca'),
-(31, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-04 14:22:58', 'dibaca'),
-(0, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-08 01:51:36', 'dibaca'),
-(0, 58, 'Peminjaman kamu DITOLAK', 0, '2026-04-08 02:15:49', 'dibaca'),
-(0, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-08 02:15:53', 'dibaca'),
-(0, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-08 02:18:41', 'dibaca'),
-(0, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-08 02:24:35', 'dibaca'),
-(0, 58, 'Peminjaman kamu DITOLAK', 0, '2026-04-08 02:49:35', 'dibaca'),
-(0, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-08 02:50:18', 'dibaca'),
-(0, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-08 03:41:50', 'dibaca'),
-(0, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-08 03:41:51', 'dibaca'),
-(0, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-08 03:57:15', 'dibaca'),
-(0, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-08 03:57:16', 'dibaca'),
-(0, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-08 04:03:42', 'dibaca');
+(31, 58, 'Peminjaman kamu DISETUJUI', 0, '2026-04-04 14:22:58', 'dibaca');
 
 -- --------------------------------------------------------
 
@@ -174,30 +159,24 @@ INSERT INTO `notifikasi` (`id_notif`, `id_user`, `pesan`, `status_baca`, `create
 --
 
 CREATE TABLE `peminjaman` (
-  `id_peminjaman` int(11) NOT NULL,
-  `id_user` int(11) DEFAULT NULL,
-  `id_alat` int(11) DEFAULT NULL,
+  `id_peminjaman` int NOT NULL,
+  `id_user` int DEFAULT NULL,
+  `id_alat` int DEFAULT NULL,
   `tgl_pinjam` date DEFAULT NULL,
   `tgl_kembali` date DEFAULT NULL,
   `tgl_persetujuan` date DEFAULT NULL,
   `status` enum('menunggu','disetujui','ditolak','dipinjam','dikembalikan','arsip') DEFAULT 'menunggu'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `peminjaman`
 --
 
 INSERT INTO `peminjaman` (`id_peminjaman`, `id_user`, `id_alat`, `tgl_pinjam`, `tgl_kembali`, `tgl_persetujuan`, `status`) VALUES
-(3, 58, 35, '2026-04-08', '2026-04-09', '2026-04-08', 'dikembalikan'),
-(7, 58, 34, '2026-04-08', '2026-04-08', '2026-04-08', 'dikembalikan'),
-(8, 58, 34, '2026-04-08', '2026-04-08', '2026-04-08', 'dipinjam'),
-(10, 58, 34, '2026-04-08', '2026-04-08', '2026-04-08', 'dikembalikan'),
-(11, 58, 39, '2026-04-08', '2026-04-08', '2026-04-08', 'dikembalikan'),
-(12, 58, 35, '2026-04-08', '2026-04-08', '2026-04-08', 'dikembalikan'),
-(13, 58, 36, '2026-04-08', '2026-04-08', '2026-04-08', 'dikembalikan'),
-(14, 58, 34, '2026-04-08', '2026-04-08', NULL, 'ditolak'),
-(15, 58, 34, '2026-04-08', '2026-04-29', '2026-04-08', 'dikembalikan'),
-(16, 58, 42, '2026-04-08', '2026-04-08', '2026-04-08', 'dipinjam');
+(49, 58, 34, '2026-04-01', '2026-04-02', '2026-04-02', 'dikembalikan'),
+(52, 58, 34, '2026-04-04', '2026-04-16', NULL, 'menunggu'),
+(53, 60, 39, '2026-04-04', '2027-04-04', '2026-04-04', 'dikembalikan'),
+(54, 58, 34, '2026-04-04', '2026-04-05', '2026-04-04', 'dipinjam');
 
 -- --------------------------------------------------------
 
@@ -206,24 +185,19 @@ INSERT INTO `peminjaman` (`id_peminjaman`, `id_user`, `id_alat`, `tgl_pinjam`, `
 --
 
 CREATE TABLE `pengembalian` (
-  `id_pengembalian` int(11) NOT NULL,
-  `id_peminjaman` int(11) DEFAULT NULL,
+  `id_pengembalian` int NOT NULL,
+  `id_peminjaman` int DEFAULT NULL,
   `tgl_dikembalikan` date DEFAULT NULL,
   `kondisi_kembali` enum('baik','rusak','hilang') DEFAULT NULL,
-  `denda` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `denda` int DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pengembalian`
 --
 
 INSERT INTO `pengembalian` (`id_pengembalian`, `id_peminjaman`, `tgl_dikembalikan`, `kondisi_kembali`, `denda`) VALUES
-(1, 3, '2026-04-08', 'rusak', 120000),
-(2, 7, '2026-04-08', 'baik', 1111111),
-(4, 11, '2026-04-08', 'rusak', 50000),
-(5, 10, '2026-04-08', 'baik', 0),
-(7, 13, '2026-04-08', 'rusak', 50000),
-(8, 15, '2026-04-08', 'baik', 122);
+(21, 53, '2026-04-04', 'baik', 0);
 
 -- --------------------------------------------------------
 
@@ -232,13 +206,13 @@ INSERT INTO `pengembalian` (`id_pengembalian`, `id_peminjaman`, `tgl_dikembalika
 --
 
 CREATE TABLE `users` (
-  `id_user` int(11) NOT NULL,
+  `id_user` int NOT NULL,
   `nama` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `no_tlp` varchar(15) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('admin','petugas','peminjam','') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -246,13 +220,14 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `nama`, `email`, `no_tlp`, `password`, `role`) VALUES
 (50, 'admin0', 'admin0@gmail.com', '829398282', '$2y$10$SXT9nki3OTxoptrSjj7gZOj698EiKyeiChGTQ9NeyjnNOcuwHnRzm', 'admin'),
-(52, 'gipiri', 'gipiri@gmail.com', '089726736726', '$2y$10$fFG5/9idtkvNn4xGw5Sq/.JPa4m/qgoZF6cLPJdET7k5dAdscLSNS', 'peminjam'),
+(52, 'gipiri', 'gipiri@gmail.com', '089726736726', '$2y$10$fFG5/9idtkvNn4xGw5Sq/.JPa4m/qgoZF6cLPJdET7k5dAdscLSNS', 'petugas'),
 (53, 'epang', 'pan@gmail.com', '18181818', '$2y$10$OKKpHPwroOAOtbLw/1laLOeVhVMl0OS/iQTwxltaW71e2eyAzW/2m', 'petugas'),
 (54, 'bonkop', 'bongkop@gmail.com', '0891028372828', '$2y$10$7y6K15TfhpGoSc5qyPdGtue2kA3fbyiPtagXQSozjjxMGknefOF6.', 'peminjam'),
+(55, 'rusdi jejer', 'rusdioyag@gmail.com', '087569483652', '$2y$10$4ZBbF8wEnzqRQmR/6/pZc.XZ2C.qvvE.jXe7BK1/fOIOq9lPYuOFW', 'peminjam'),
 (56, 'p', 'petugas0@gmail.com', '000000000', '$2y$10$DHJHszocTg/3BzNN8lafM.jcZkTHqmrIrMbi1yRyUVLTpR2BnqYYy', 'petugas'),
 (58, 'fk', 'peminjam0@gmail.com', '111111', '$2y$10$cR2gR56T6cQHte5JMwGRN.6kwdNjBovQP.R10ApyZzBsSKbdmmyP6', 'peminjam'),
-(60, 'KIRANNNNN', 'kir@gmail.com', '00', '$2y$10$pZCs/lS1hFY./Lw.JGFf7e11hOrDws879v9eBhNasJY7TDws800Sm', 'peminjam'),
-(62, 'fareski', 'res@gmail.com', '1111', '$2y$10$llFBvPiRbSfkGjreVz.sqeWZHncAZR9B.1kRtyUJ1AOX/0vYh12NO', 'peminjam');
+(59, 'kirania', 'hahahsh@gmail.com', '8888', '$2y$10$ApR52xpJOPvXr.VC4H4Mxuc.4jwJBev9Y8bKWDS9T.luZnhLS5Hfq', 'peminjam'),
+(60, 'KIRANNNNN', 'kir@gmail.com', '00', '$2y$10$pZCs/lS1hFY./Lw.JGFf7e11hOrDws879v9eBhNasJY7TDws800Sm', 'peminjam');
 
 --
 -- Indexes for dumped tables
@@ -272,22 +247,39 @@ ALTER TABLE `kategori`
   ADD PRIMARY KEY (`id_kategori`);
 
 --
+-- Indexes for table `log_aktivitas`
+--
+ALTER TABLE `log_aktivitas`
+  ADD PRIMARY KEY (`id_log`),
+  ADD KEY `id_user` (`id_user`);
+
+--
+-- Indexes for table `notifikasi`
+--
+ALTER TABLE `notifikasi`
+  ADD PRIMARY KEY (`id_notif`);
+
+--
 -- Indexes for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  ADD PRIMARY KEY (`id_peminjaman`);
+  ADD PRIMARY KEY (`id_peminjaman`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `peminjaman_ibfk_3` (`id_alat`);
 
 --
 -- Indexes for table `pengembalian`
 --
 ALTER TABLE `pengembalian`
-  ADD PRIMARY KEY (`id_pengembalian`);
+  ADD PRIMARY KEY (`id_pengembalian`),
+  ADD KEY `pengembalian_ibfk_1` (`id_peminjaman`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id_user`);
+  ADD PRIMARY KEY (`id_user`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -297,31 +289,72 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `alat`
 --
 ALTER TABLE `alat`
-  MODIFY `id_alat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_alat` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `log_aktivitas`
+--
+ALTER TABLE `log_aktivitas`
+  MODIFY `id_log` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `notifikasi`
+--
+ALTER TABLE `notifikasi`
+  MODIFY `id_notif` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_peminjaman` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `pengembalian`
 --
 ALTER TABLE `pengembalian`
-  MODIFY `id_pengembalian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_pengembalian` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `alat`
+--
+ALTER TABLE `alat`
+  ADD CONSTRAINT `alat_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`);
+
+--
+-- Constraints for table `log_aktivitas`
+--
+ALTER TABLE `log_aktivitas`
+  ADD CONSTRAINT `log_aktivitas_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+
+--
+-- Constraints for table `peminjaman`
+--
+ALTER TABLE `peminjaman`
+  ADD CONSTRAINT `peminjaman_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`),
+  ADD CONSTRAINT `peminjaman_ibfk_3` FOREIGN KEY (`id_alat`) REFERENCES `alat` (`id_alat`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `pengembalian`
+--
+ALTER TABLE `pengembalian`
+  ADD CONSTRAINT `pengembalian_ibfk_1` FOREIGN KEY (`id_peminjaman`) REFERENCES `peminjaman` (`id_peminjaman`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
